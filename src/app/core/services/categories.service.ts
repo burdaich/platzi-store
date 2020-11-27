@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class CategoriesService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllCategories() {
     return this.http.get<Category[]>(`${environment.url_api}/categories/`);
@@ -22,5 +22,9 @@ export class CategoriesService {
       `${environment.url_api}/categories/${data._id}`,
       data
     );
+  }
+
+  checkCategory(name: string) {
+    return this.http.post(`${environment.url_api}/categories/availability/`, { name });
   }
 }
