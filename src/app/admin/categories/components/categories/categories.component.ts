@@ -12,7 +12,7 @@ import { Category } from './../../../../core/models/category.model';
 export class CategoriesComponent implements OnInit {
 
   categories: Category[] = [];
-  displayedColumns: string[] = ['id', 'name', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'image', 'actions'];
 
   constructor(
     private categoriesService: CategoriesService,
@@ -24,9 +24,9 @@ export class CategoriesComponent implements OnInit {
 
   private getCategories() {
     this.categoriesService.getAllCategories()
-    .subscribe(categories => {
-      this.categories = categories;
-    });
+      .subscribe(categories => {
+        this.categories = categories;
+      });
   }
 
 }

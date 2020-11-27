@@ -13,6 +13,10 @@ export class CategoriesService {
     return this.http.get<Category[]>(`${environment.url_api}/categories/`);
   }
 
+  getCategory(id: string) {
+    return this.http.get<Category>(`${environment.url_api}/categories/${id}`);
+  }
+
   createCategory(data: Partial<Category>) {
     return this.http.post<Category>(`${environment.url_api}/categories/`, data);
   }
