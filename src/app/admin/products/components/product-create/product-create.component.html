@@ -36,11 +36,14 @@
             <p *ngIf="descriptionField.hasError('minLength')">Minimo debe de tener 10 caracteres</p>
           </div>
         </div>
-      </div> 
+      </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Category Id" formControlName="category_id" matInput type="number"/>
+            <mat-label>Seleccione la categoria</mat-label>
+            <mat-select formControlName="category_id">
+              <mat-option *ngFor="let category of categories" [value]="category._id">{{category.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
           <div *ngIf="categoryIdField.errors && categoryIdField.dirty">
             <p *ngIf="categoryIdField.hasError('required')">debe de tener una descripción</p>
@@ -61,5 +64,5 @@
       <button [disabled]="form.invalid" mat-raised-button type="submit">Guardar</button>
     </mat-card-actions>
   </mat-card>
-  
+
 </form>

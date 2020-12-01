@@ -9,6 +9,8 @@ import { MyValidators } from './../../../../utils/validators';
 import { ProductsService } from './../../../../core/services/products/products.service';
 
 import { Observable } from 'rxjs';
+import { CategoriesService } from 'src/app/core/services/categories.service';
+import { Category } from 'src/app/core/models/category.model';
 
 @Component({
   selector: 'app-product-create',
@@ -19,10 +21,12 @@ export class ProductCreateComponent implements OnInit {
 
   form: FormGroup;
   image$: Observable<any>;
+  categories: Category[];
 
   constructor(
     private formBuilder: FormBuilder,
     private productsService: ProductsService,
+    private categoriesService: CategoriesService,
     private router: Router,
     private storage: AngularFireStorage
   ) {
@@ -30,6 +34,7 @@ export class ProductCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCategories();
   }
 
   saveProduct(event: Event) {
@@ -69,26 +74,31 @@ export class ProductCreateComponent implements OnInit {
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       image: ['', Validators.required],
       category_id: ['', Validators.required],
-      description: ['', [Validators.required,Validators.minLength(10)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
+
+  private getCategories() {
+    this.categoriesService.getAllCategories().subscribe(data => this.categories = data);
+  }
+  
 
   get priceField() {
     return this.form.get('price');
   }
-  
+
   get nameField() {
     return this.form.get('name');
   }
-  
+
   get descriptionField() {
     return this.form.get('description');
   }
-  
+
   get imageField() {
     return this.form.get('image');
   }
-  
+
   get categoryIdField() {
     return this.form.get('category_id');
   }

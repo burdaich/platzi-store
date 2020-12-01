@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-xs">
             <mat-form-field>
-              <input placeholder="Title" formControlName="title" matInput type="text">
+              <input placeholder="Name" formControlName="name" matInput type="text">
             </mat-form-field>
           </div>
         </div>
@@ -27,6 +27,28 @@
             <mat-form-field>
               <textarea placeholder="Text" formControlName="description" matInput></textarea>
             </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
+            <mat-form-field>
+              <mat-label>Seleccione la categoria</mat-label>
+              <mat-select formControlName="category_id">
+                <mat-option *ngFor="let category of categories" [value]="category._id">{{category.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="categoryIdField.errors && categoryIdField.dirty">
+              <p *ngIf="categoryIdField.hasError('required')">debe de tener una descripción</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
+            <img *ngIf="imageField.value" [src]="imageField.value" alt="">
+            <input type="file" (change)="uploadFile($event)">
+            <div *ngIf="imageField.touched && imageField.invalid">
+              <p *ngIf="imageField.hasError('required')">debe de tener una imagen</p>
+            </div>
           </div>
         </div>
       </mat-card-content>
