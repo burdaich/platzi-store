@@ -7,15 +7,12 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Id" formControlName="id" matInput type="text">
+            <input placeholder="Name" formControlName="name" matInput type="text">
           </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <mat-form-field>
-            <input placeholder="Title" formControlName="title" matInput type="text">
-          </mat-form-field>
+          <div *ngIf="nameField.errors && nameField.dirty">
+            <p *ngIf="nameField.hasError('required')">debe de tener un nombre</p>
+            <p *ngIf="nameField.hasError('minLength')">Minimo debe de tener 4 caracteres</p>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -34,12 +31,29 @@
           <mat-form-field>
             <textarea placeholder="Text" formControlName="description" matInput></textarea>
           </mat-form-field>
+          <div *ngIf="descriptionField.errors && descriptionField.dirty">
+            <p *ngIf="descriptionField.hasError('required')">debe de tener una descripción</p>
+            <p *ngIf="descriptionField.hasError('minLength')">Minimo debe de tener 10 caracteres</p>
+          </div>
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <input placeholder="Category Id" formControlName="category_id" matInput type="number"/>
+          </mat-form-field>
+          <div *ngIf="categoryIdField.errors && categoryIdField.dirty">
+            <p *ngIf="categoryIdField.hasError('required')">debe de tener una descripción</p>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
-          <img *ngIf="(image$ | async) as image" [src]="image" alt="">
+          <img *ngIf="imageField.value" [src]="imageField.value" alt="">
           <input type="file" (change)="uploadFile($event)">
+          <div *ngIf="imageField.touched && imageField.invalid">
+            <p *ngIf="imageField.hasError('required')">debe de tener una imagen</p>
+          </div>
         </div>
       </div>
     </mat-card-content>

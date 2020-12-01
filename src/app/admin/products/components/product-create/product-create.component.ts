@@ -37,10 +37,10 @@ export class ProductCreateComponent implements OnInit {
     if (this.form.valid) {
       const product = this.form.value;
       this.productsService.createProduct(product)
-      .subscribe((newProduct) => {
-        console.log(newProduct);
-        this.router.navigate(['./admin/products']);
-      });
+        .subscribe((newProduct) => {
+          console.log(newProduct);
+          this.router.navigate(['./admin/products']);
+        });
     }
   }
 
@@ -51,30 +51,46 @@ export class ProductCreateComponent implements OnInit {
     const task = this.storage.upload(name, file);
 
     task.snapshotChanges()
-    .pipe(
-      finalize(() => {
-        this.image$ = fileRef.getDownloadURL();
-        this.image$.subscribe(url => {
-          console.log(url);
-          this.form.get('image').setValue(url);
-        });
-      })
-    )
-    .subscribe();
+      .pipe(
+        finalize(() => {
+          this.image$ = fileRef.getDownloadURL();
+          this.image$.subscribe(url => {
+            console.log(url);
+            this.form.get('image').setValue(url);
+          });
+        })
+      )
+      .subscribe();
   }
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
-      title: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(4)]],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
-      image: [''],
-      description: ['', [Validators.required]],
+      image: ['', Validators.required],
+      category_id: ['', Validators.required],
+      description: ['', [Validators.required,Validators.minLength(10)]],
     });
   }
 
   get priceField() {
     return this.form.get('price');
+  }
+  
+  get nameField() {
+    return this.form.get('name');
+  }
+  
+  get descriptionField() {
+    return this.form.get('description');
+  }
+  
+  get imageField() {
+    return this.form.get('image');
+  }
+  
+  get categoryIdField() {
+    return this.form.get('category_id');
   }
 
 }
