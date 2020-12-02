@@ -75,13 +75,17 @@ export class ProductCreateComponent implements OnInit {
       image: ['', Validators.required],
       category_id: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
+      stock: [100, Validators.required]
     });
+
+    this.stockField.valueChanges.subscribe(value => console.log(value));
+
   }
 
   private getCategories() {
     this.categoriesService.getAllCategories().subscribe(data => this.categories = data);
   }
-  
+
 
   get priceField() {
     return this.form.get('price');
@@ -101,6 +105,10 @@ export class ProductCreateComponent implements OnInit {
 
   get categoryIdField() {
     return this.form.get('category_id');
+  }
+
+  get stockField() {
+    return this.form.get('stock');
   }
 
 }

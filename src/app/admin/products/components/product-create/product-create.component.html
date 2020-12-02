@@ -52,6 +52,11 @@
       </div>
       <div class="row">
         <div class="col-xs">
+          <app-stepper formControlName="stock"></app-stepper>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
           <img *ngIf="imageField.value" [src]="imageField.value" alt="">
           <input type="file" (change)="uploadFile($event)">
           <div *ngIf="imageField.touched && imageField.invalid">
