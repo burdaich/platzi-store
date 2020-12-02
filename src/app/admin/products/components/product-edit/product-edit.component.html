@@ -44,6 +44,19 @@
         </div>
         <div class="row">
           <div class="col-xs">
+            <mat-form-field>
+              <mat-label>Seleccione el estado</mat-label>
+              <mat-select formControlName="state">
+                <mat-option *ngFor="let state of states" [value]="state">{{state.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="categoryIdField.errors && categoryIdField.dirty">
+              <p *ngIf="categoryIdField.hasError('required')">debe de tener una descripción</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
             <img *ngIf="imageField.value" [src]="imageField.value" alt="">
             <input type="file" (change)="uploadFile($event)">
             <div *ngIf="imageField.touched && imageField.invalid">

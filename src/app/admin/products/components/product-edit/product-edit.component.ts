@@ -21,6 +21,13 @@ export class ProductEditComponent implements OnInit {
   id: string;
   image$: Observable<any>;
   categories: Category[];
+  states = [
+    { name: "Arizona", abbrev: "AZ" },
+    { name: "California", abbrev: "CA" },
+    { name: "Colorado", abbrev: "CO" },
+    { name: "New York", abbrev: "NY" },
+    { name: "Pennsylvania", abbrev: "PA" },
+  ];
 
 
   constructor(
@@ -39,13 +46,28 @@ export class ProductEditComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params.id;
       this.productsService.getProduct(this.id)
-        .subscribe(product => {
-          this.form.patchValue(product);
+        .subscribe((product: any) => {
+          console.log(product);
+          this.form.patchValue({ ...product, state: this.getStateFromList(product.state) });
         });
     });
 
     this.categoriesService.getAllCategories().subscribe(data => this.categories = data);
   }
+
+  private getStateFromList(product: any): any {
+    //default;
+    let stateToReturn = this.states[0];
+
+    this.states.forEach((element: any) => {
+      if (product !== undefined && typeof product.abbrev !== 'undefined' && element.abbrev === product.abbrev) {
+        stateToReturn = element;
+      }
+    });
+
+    return stateToReturn;
+  }
+
 
   saveProduct(event: Event) {
     event.preventDefault();
@@ -65,6 +87,7 @@ export class ProductEditComponent implements OnInit {
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       image: ['', Validators.required],
       category_id: ['', Validators.required],
+      state: ['', Validators.required],
       description: ['', [Validators.required]],
     });
   }
@@ -79,6 +102,10 @@ export class ProductEditComponent implements OnInit {
 
   get categoryIdField() {
     return this.form.get('category_id');
+  }
+
+  get stateField() {
+    return this.form.get('state');
   }
 
   uploadFile(event) {
