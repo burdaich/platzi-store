@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { BuiltinMethod } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
-    this.searrchField.valueChanges.subscribe(query => this.getData(query));
+    this.searrchField.valueChanges.pipe(debounceTime(300)).subscribe(query => this.getData(query));
   }
 
 
@@ -29,6 +29,6 @@ export class SearchComponent implements OnInit {
           return response.data.map(item => item.images.downsized);
         }
         ))
-      .subscribe(data => console.log(data));
+      .subscribe(data => this.result = data);
   }
 }

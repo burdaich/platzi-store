@@ -1,2 +1,7 @@
 <p><input type="search" [formControl]="searrchField"></p>
 <p>{{searrchField.value}}</p>
+<div class="images-grid">
+    <div class="image" *ngFor="let item of result">
+        <img [src]="item.url" alt="">
+    </div>
+</div>
